@@ -1,0 +1,16 @@
+name = Views Simpleviewer
+description = Provides an Simpleviewer flash gallery display plugin
+package = Views
+core = 7.x
+dependencies[] = views
+dependencies[] = views_data_export
+dependencies[] = image 
+
+files[] = views_simpleviewer.view.inc
+files[] = views_simpleviewer.module
+files[] = views_simpleviewer_style_plugin.inc
+files[] = views-view-simpleviewer.tpl.php
+files[] = views_simpleviewer_block_style_plugin.inc
+files[] = views-view-simpleviewer-block.tpl.php
+
+version = 7.x-1.0-alpha1
