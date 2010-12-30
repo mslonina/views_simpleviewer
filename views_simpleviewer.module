@@ -1,14 +1,15 @@
 <?php
+// $Id$
 
 /**
- * Implementation of hook_views_api()
+ * Implements hook_views_api().
  */
 function views_simpleviewer_views_api() {
   return array('api' => 2);
 }
 
 /**
- * Implementation of template_preprocess()
+ * Implements of template_preprocess().
  */
 function template_preprocess_views_view_simpleviewer(&$vars) {
 
@@ -28,8 +29,8 @@ function template_preprocess_views_view_simpleviewer(&$vars) {
 
   $path = file_stream_wrapper_get_instance_by_scheme('public')->getDirectoryPath();
   $suff = '/public/field/image/';
-  $imageURL = $base_url . "/" . $path . '/styles/'.$options['previewStyle'].$suff;
-  $thumbURL = $base_url . "/" . $path . '/styles/'.$options['thumbStyle'].$suff;
+  $imageURL = $base_url . "/" . $path . '/styles/' . $options['previewStyle'] . $suff;
+  $thumbURL = $base_url . "/" . $path . '/styles/' . $options['thumbStyle'] . $suff;
 
   $bools = array(
     0 => 'FALSE',
@@ -53,47 +54,50 @@ function template_preprocess_views_view_simpleviewer(&$vars) {
   $keys = array_keys($fields);
   foreach ($rows as $num => $row) {
     $field_values[$num] = array();
-    foreach($keys as $id) {
+    foreach ($keys as $id) {
       $field_values[$num][$id] = $view->style_plugin->rendered_fields[$num][$id];
     }
     if (!$options['useFlickr']) {
       $image_val = $field_values[$num][$keys[$options['imageField']]];
       $caption_val = $field_values[$num][$keys[$options['captionField']]];
-      $image = $imageURL.$image_val;
-      $thumb = $thumbURL.$image_val;
-      $content .= '<image imageURL="'.$image.'" thumbURL="'.$thumb.'" linkURL="" linkTarget="">'."\n";
-      $content .= '<caption><![CDATA['.$caption_val.']]></caption>'."\n";
-      $content .= '</image>'."\n";
+      $image = $imageURL . $image_val;
+      $thumb = $thumbURL . $image_val;
+      $content .= '<image imageURL="' . $image . '" thumbURL="' . $thumb . '" linkURL="" linkTarget="">' . "\n";
+      $content .= '<caption><![CDATA[' . $caption_val . ']]></caption>' . "\n";
+      $content .= '</image>' . "\n";
     }
   }
   
 
   $sv = "";
-  $sv .= "\n".'title=""';
-  $sv .= "\n".'galleryStyle="'.$options['galleryStyle'].'"';
-  $sv .= "\n".'textColor="'.$options['textColor'].'"';
-  $sv .= "\n".'frameColor="'.$options['frameColor'].'"';
-  $sv .= "\n".'frameWidth="'.$options['frameWidth'].'"';
-  $sv .= "\n".'thumbPosition="'.$options['thumbPosition'].'"';
-  $sv .= "\n".'thumbColumns="'.$options['thumbColumns'].'"';
-  $sv .= "\n".'thumbRows="'.$options['thumbRows'].'"';
-  $sv .= "\n".'showOpenButton="'.$bools[$options['showOpenButton']].'"';
-  $sv .= "\n".'showFullscreenButton="'.$bools[$options['showFullscreenButton']].'"';
-  $sv .= "\n".'maxImageWidth="'.$options['maxImageWidth'].'"';
-  $sv .= "\n".'maxImageHeight="'.$options['maxImageHeight'].'"';
-  $sv .= "\n".'imagePath="'.$imageURL.'"';
-  $sv .= "\n".'thumbPath="'.$thumbURL.'"';
-  $sv .= "\n".'useFlickr="'.$bools[$options['useFlickr']].'"';
-  $sv .= "\n".'flickrUserName="'.$user.'"';
-  $sv .= "\n".'flickrTags="'.$tags.'"';
-  $sv .= "\n".'languageCode="AUTO"';
-  $sv .= "\n".'languageList=""';
+  $sv .= "\n" . 'title=""';
+  $sv .= "\n" . 'galleryStyle="' . $options['galleryStyle'] . '"';
+  $sv .= "\n" . 'textColor="' . $options['textColor'] . '"';
+  $sv .= "\n" . 'frameColor="' . $options['frameColor'] . '"';
+  $sv .= "\n" . 'frameWidth="' . $options['frameWidth'] . '"';
+  $sv .= "\n" . 'thumbPosition="' . $options['thumbPosition'] . '"';
+  $sv .= "\n" . 'thumbColumns="' . $options['thumbColumns'] . '"';
+  $sv .= "\n" . 'thumbRows="' . $options['thumbRows'] . '"';
+  $sv .= "\n" . 'showOpenButton="' . $bools[$options['showOpenButton']] . '"';
+  $sv .= "\n" . 'showFullscreenButton="' . $bools[$options['showFullscreenButton']] . '"';
+  $sv .= "\n" . 'maxImageWidth="' . $options['maxImageWidth'] . '"';
+  $sv .= "\n" . 'maxImageHeight="' . $options['maxImageHeight'] . '"';
+  $sv .= "\n" . 'imagePath="' . $imageURL . '"';
+  $sv .= "\n" . 'thumbPath="' . $thumbURL . '"';
+  $sv .= "\n" . 'useFlickr="' . $bools[$options['useFlickr']] . '"';
+  $sv .= "\n" . 'flickrUserName="' . $user . '"';
+  $sv .= "\n" . 'flickrTags="' . $tags . '"';
+  $sv .= "\n" . 'languageCode="AUTO"';
+  $sv .= "\n" . 'languageList=""';
 
   $vars['simpleviewer_settings'] = $sv;
   $vars['simpleviewer_content'] = $content;
  
 }
 
+/**
+ * Implements hook_filter_info().
+ */
 function views_simpleviewer_filter_info() {
   $filters['views_simpleviewer'] = array(
     'title' => t('Insert simpleviewer gallery'),
@@ -103,7 +107,7 @@ function views_simpleviewer_filter_info() {
       'default settings' => array(
           'background_color' => '#FFFFFF',
         ),
-    'tips callback' => 'views_simpleviewer_filter_tips',
+    'tips callback' => '_views_simpleviewer_tips',
     'cache' => FALSE,
     );
   return $filters;
@@ -126,11 +130,15 @@ function _views_simpleviewer_settings(&$form_state, $filter, $defaults, $format,
   return $form;
 }
 
-function views_simpleviewer_filter_tips($filter, $format, $long = FALSE) {
+/**
+ * Implements hook_filter_tips().
+ */
+function _views_simpleviewer_tips($filter, $format, $long = FALSE) {
   if ($long) {
     return t('Inserts Simpleviewer gallery according to specified gallery file.<br
       />Usage: [simpleviewer:drupal/path/to/gallery]');
-  } else {
+  } 
+  else {
     return t('Inserts Simpleviewer gallery according to specified gallery file.<br />
       Usage: [simpleviewer:drupal/path/to/gallery]');
   }
@@ -139,25 +147,25 @@ function views_simpleviewer_filter_tips($filter, $format, $long = FALSE) {
 function _views_simpleviewer_process($text, $filter, $format, $langcode, $cache, $cache_id) {
 
   global $base_url;
-  $player = $base_url . '/' .drupal_get_path('module','views_simpleviewer');
+  $player = $base_url . '/' . drupal_get_path('module', 'views_simpleviewer');
   $player .= '/simpleviewer/simpleviewer.swf';
 
   $bg_color = $filter->settings['background_color'];
 
-  if(preg_match_all("/\[simpleviewer:([^=\]]+)=?([^=\]]+)?=?([^\]]*)?\]/i", $text, $match)) {
+  if (preg_match_all("/\[simpleviewer:([^=\]]+)=?([^=\]]+)?=?([^\]]*)?\]/i", $text, $match)) {
     foreach ($match[0] as $key => $value) {
-      $gallery_id = $base_url . '/'. $match[1][$key];
+      $gallery_id = $base_url . '/' . $match[1][$key];
       $search[] = $value;
       $replace[] = '<object width="100%" height="100%">
-        <param name="flashvars" value="galleryURL='. $gallery_id  .'" />
-        <param name="movie" value="'. $player  .'" />
+        <param name="flashvars" value="galleryURL=' . $gallery_id . '" />
+        <param name="movie" value="' . $player . '" />
         <param name="allowFullScreen" value="true" />
         <param name="allowscriptaccess" value="always" />
-        <param name="bgcolor" value="'.$bg_color.'" />
+        <param name="bgcolor" value="' . $bg_color . '" />
         <param name="wmode" value="transparent" />
-        <embed src="'. $player  .'" type="application/x-shockwave-flash"
+        <embed src="' . $player . '" type="application/x-shockwave-flash"
         wmode="transparent" allowscriptaccess="always" allowfullscreen="true" width="100%"
-        height="100%" bgcolor="'.$bg_color.'" flashvars="galleryURL='. $gallery_id .'" />
+        height="100%" bgcolor="' . $bg_color . '" flashvars="galleryURL=' . $gallery_id . '" />
         </object>';
     }
     return str_replace($search, $replace, $text);
@@ -165,6 +173,9 @@ function _views_simpleviewer_process($text, $filter, $format, $langcode, $cache,
   return $text;
 }
 
+/**
+ * Implements hook_image_default_styles().
+ */
 function views_simpleviewer_image_default_styles() {
   $styles = array();
   $styles['views_simpleviewer_thumbnail'] = array(
@@ -189,12 +200,17 @@ function views_simpleviewer_image_default_styles() {
   return $styles;
 }
 
+/**
+ * Implements hook_image_style_save().
+ */
 function views_simpleviewer_image_style_save($style) {
   image_image_style_save($style);
 }
 
+/**
+ * Implements hook_image_style_delete().
+ */
 function views_simpleviewer_image_style_delete($style) {
   image_image_style_save($style);
 }
 
-?>

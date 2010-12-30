@@ -1,4 +1,10 @@
 <?php
+// $Id$
+
+/**
+ * @file
+ * Extends views_plugin_style class.
+ */
 
 class views_simpleviewer_style_plugin extends views_plugin_style {
 
@@ -33,7 +39,7 @@ class views_simpleviewer_style_plugin extends views_plugin_style {
 
     // Return image styles
     $image_styles = image_styles();
-    foreach($image_styles as $key => $value) {
+    foreach ($image_styles as $key => $value) {
       $styles[$value['name']] = $value['name'];
     }
 
@@ -175,4 +181,3 @@ class views_simpleviewer_style_plugin extends views_plugin_style {
 
 }
 
-?>

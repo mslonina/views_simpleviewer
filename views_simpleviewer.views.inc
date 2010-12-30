@@ -1,5 +1,14 @@
 <?php
+// $Id$
 
+/**
+ * @file
+ * Views Simpleviewer plugin definition.
+ */
+
+/**
+ * Implements hook_views_plugins().
+ */
 function views_simpleviewer_views_plugins() {
   return array(
     'style' => array(
@@ -22,4 +31,3 @@ function views_simpleviewer_views_plugins() {
   );
 }
 
-?>
