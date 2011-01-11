@@ -16,6 +16,8 @@ Description
 Exports data in a Simpleviewer Gallery file. Gallery can be included in the node by filter
 [simpleviewer:path/to/gallery], which you can enable in Text Formats.
 
+Based on drupal.org/project/simpleviewer
+
 Example usage
 --------------
 
