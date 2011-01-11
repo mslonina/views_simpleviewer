@@ -6,6 +6,10 @@ Requirements
 
 Views, Views Data Export
 
+Installation
+------------
+Put Simpleviewer.swf to views_simpleviewer/simpleviewer
+
 Description
 -----------
 
